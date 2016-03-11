@@ -1,10 +1,12 @@
 require 'rubygems'
 require 'nokogiri'
 require 'restclient'
+require 'json'
+require 'pp'
 
-page = Nokogiri::HTML(RestClient.get("https://www.reddit.com/r/EarthPorn/top/"))
+json = JSON.parse(RestClient.get("https://www.reddit.com/r/EarthPorn/top.json?limit=1"))
 
-top_img_url = page.xpath("//*[@id='siteTable']/div[1]/div[2]/p[1]/a")[0]['href']
+top_img_url = json['data']['children'][0]['data']['preview']['images'][0]['source']['url']
 
 time = Time.now.to_s.split(' ', 2).first
 
